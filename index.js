@@ -18,29 +18,29 @@ function getMaxStepCount(){
 
 function checkWin(matrix) {
     const n = matrix.length;
+    
     for (let i = 0; i < n; i++) {
         if (matrix[i][0] !== EMPTY && matrix[i].every(cell => cell === matrix[i][0])) {
-            return matrix[i][0];
+            return matrix[i].map((cell, index) => [i, index]);
         }
     }
 
     for (let j = 0; j < n; j++) {
         if (matrix[0][j] !== EMPTY && matrix.every(row => row[j] === matrix[0][j])) {
-            return matrix[0][j];
+            return matrix.map((row, index) => [index, j]);
         }
     }
 
     if (matrix[0][0] !== EMPTY && matrix.every((row, index) => row[index] === matrix[0][0])) {
-        return matrix[0][0]; 
+        return matrix.map((row, index) => [index, index]); 
     }
 
     if (matrix[0][n - 1] !== EMPTY && matrix.every((row, index) => row[n - 1 - index] === matrix[0][n - 1])) {
-        return matrix[0][n - 1];
+        return matrix.map((row, index) => [index, n - 1 - index]); 
     }
 
-    return null;
+    return null; 
 }
-
 startGame();
 addResetListener();
 
@@ -48,28 +48,6 @@ function startGame () {
     renderGrid(3);
     step_counter = 0;
 }
-
-function checkWin(matrix) {
-    const n = matrix.length;
-    for (let i = 0; i < n; i++) {
-        if (matrix[i][0] !== EMPTY && matrix[i].every(cell => cell === matrix[i][0])) {
-            return matrix[i][0];
-        }
-    }
-    for (let j = 0; j < n; j++) {
-        if (matrix[0][j] !== EMPTY && matrix.every(row => row[j] === matrix[0][j])) {
-            return matrix[0][j];
-        }
-    }
-    if (matrix[0][0] !== EMPTY && matrix.every((row, index) => row[index] === matrix[0][0])) {
-        return matrix[0][0]; 
-    }
-    if (matrix[0][n - 1] !== EMPTY && matrix.every((row, index) => row[n - 1 - index] === matrix[0][n - 1])) {
-        return matrix[0][n - 1];
-    }
-    return null;
-}
-
 
 function renderGrid (dimension) {
     container.innerHTML = '';
@@ -101,6 +79,8 @@ function cellClickHandler (row, col) {
     if (step_counter === getMaxStepCount()){
         console.log("Game End!")
     }
+
+
 }
 
 function renderSymbolInCell (symbol, row, col, color = '#333') {
