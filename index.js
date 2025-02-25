@@ -10,6 +10,7 @@ let matrix = Array.from({ length: n }, () => Array(n).fill(EMPTY));
 let matrix_width = 3;
 let matrix_height = 3;
 let step_counter = 0;
+let gameEnded = true;
 
 
 function getMaxStepCount(){
@@ -47,6 +48,8 @@ addResetListener();
 function startGame () {
     renderGrid(3);
     step_counter = 0;
+    matrix = Array.from({ length: n }, () => Array(n).fill(EMPTY));
+    gameEnded = false;
 }
 
 function checkWin(matrix) {
@@ -89,17 +92,41 @@ function renderGrid (dimension) {
 function cellClickHandler (row, col) {
     console.log(`Clicked on cell: ${row}, ${col}`);
 
+    if (gameEnded){
+        alert("Начните новую игру!");
+        return;
+    }
+
     if (step_counter == getMaxStepCount()){
         console.log("Game already ended!")
+        return;
+    }
+
+    if (matrix[row][col] !== EMPTY){
         return;
     }
     
 
     let current_step = step_counter % 2 === 0 ? ZERO : CROSS;
+    matrix[row][col] = current_step;
     renderSymbolInCell(current_step, row, col);
     step_counter += 1;
+    let winner = checkWin(matrix);
+    if (winner !== null){
+        gameEnded = true;
+        switch (winner){
+            case CROSS:
+                alert("Победили крестики");
+                break;
+            case ZERO:
+                alert("Победили нолики");
+                break;
+        }
+        return;
+    }
     if (step_counter === getMaxStepCount()){
         console.log("Game End!")
+        alert("Победила Дружба!")
     }
 }
 
