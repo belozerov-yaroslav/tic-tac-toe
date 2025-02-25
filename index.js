@@ -16,6 +16,37 @@ function getMaxStepCount(){
     return n*n;
 }
 
+function getAvailableMoves(){
+    let moves = [];
+    for (let i = 0; i < n; i++) {
+        for (let j = 0; j < n; j++){
+            if (matrix[i][j] != EMPTY)
+                moves.push((i, j));
+        }
+    }
+
+    return moves;
+}
+
+function hardCodeMove(bot_ = CROSS){
+    moves = getAvailableMoves();
+
+    for ((i, j) in moves){
+        matrix[i][j] = bot_;
+        if (checkWin(matrix))
+            return (i,j);
+        matrix[i][j] = EMPTY;
+    }
+
+    return getRandomPoint(moves);
+}
+
+function getRandomPoint(moves){
+    const rand = Math.floor(Math.random() * (len(moves)));
+
+    return moves[rand];
+}
+
 function checkWin(matrix) {
     const n = matrix.length;
     
