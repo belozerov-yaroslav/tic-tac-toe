@@ -4,6 +4,9 @@ const EMPTY = ' ';
 
 const container = document.getElementById('fieldWrapper');
 
+let n = 3;
+let matrix = [[EMPTY, EMPTY, EMPTY], [EMPTY, EMPTY, EMPTY], [EMPTY, EMPTY, EMPTY]];
+
 startGame();
 addResetListener();
 
