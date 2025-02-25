@@ -20,8 +20,8 @@ function getAvailableMoves(){
     let moves = [];
     for (let i = 0; i < n; i++) {
         for (let j = 0; j < n; j++){
-            if (matrix[i][j] != EMPTY)
-                moves.push((i, j));
+            if (matrix[i][j] === EMPTY)
+                moves.push([i, j]);
         }
     }
 
@@ -30,19 +30,21 @@ function getAvailableMoves(){
 
 function hardCodeMove(bot_ = CROSS){
     moves = getAvailableMoves();
+    console.log(moves);
 
-    for ((i, j) in moves){
+    for (let pair of moves){
+        i = pair[0];
+        j = pair[1];
         matrix[i][j] = bot_;
         if (checkWin(matrix))
             return (i,j);
         matrix[i][j] = EMPTY;
     }
-
     return getRandomPoint(moves);
 }
 
 function getRandomPoint(moves){
-    const rand = Math.floor(Math.random() * (len(moves)));
+    const rand = Math.floor(Math.random() * (moves.length));
 
     return moves[rand];
 }
@@ -109,7 +111,7 @@ function cellClickHandler (row, col) {
         console.log("Game already ended!")
         return;
     }
-
+    
     if (matrix[row][col] !== EMPTY){
         return;
     }
@@ -120,7 +122,6 @@ function cellClickHandler (row, col) {
     renderSymbolInCell(current_step, row, col);
     step_counter += 1;
     let winner = checkWin(matrix);
-    console.log(winner);
     if (winner !== null){
         gameEnded = true;
         switch (matrix[winner[0][0]][winner[0][1]]){
@@ -136,8 +137,12 @@ function cellClickHandler (row, col) {
         }
         return;
     }
-    if (step_counter > (n * n) / 2){
+    /*if (step_counter > (n * n) / 2){
         increaseMatrixSize();
+    }*/ 
+    let point = hardCodeMove();
+    if (step_counter % 2 === 1){
+        cellClickHandler(point[0], point[1]);
     }
     if (step_counter === getMaxStepCount()){
         console.log("Game End!")
