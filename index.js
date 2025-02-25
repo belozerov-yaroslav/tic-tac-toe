@@ -4,17 +4,16 @@ const EMPTY = ' ';
 
 const container = document.getElementById('fieldWrapper');
 
-let n = 3;
+let n = Number(prompt("Введите размер матрицы, например: 3"));  
 let matrix = Array.from({ length: n }, () => Array(n).fill(EMPTY));
 
-let matrix_width = 3;
-let matrix_height = 3;
+
 let step_counter = 0;
 let gameEnded = true;
 
 
 function getMaxStepCount(){
-    return matrix_height * matrix_height;
+    return n*n;
 }
 
 function checkWin(matrix) {
@@ -46,7 +45,7 @@ startGame();
 addResetListener();
 
 function startGame () {
-    renderGrid(3);
+    renderGrid(n);
     step_counter = 0;
     matrix = Array.from({ length: n }, () => Array(n).fill(EMPTY));
     gameEnded = false;
@@ -90,9 +89,10 @@ function cellClickHandler (row, col) {
     renderSymbolInCell(current_step, row, col);
     step_counter += 1;
     let winner = checkWin(matrix);
+    console.log(winner);
     if (winner !== null){
         gameEnded = true;
-        switch (winner){
+        switch (matrix[winner[0][0]][winner[0][1]]){
             case CROSS:
                 alert("Победили крестики");
                 break;
@@ -100,14 +100,15 @@ function cellClickHandler (row, col) {
                 alert("Победили нолики");
                 break;
         }
+        for (let coords of winner){
+            renderSymbolInCell(matrix[winner[0][0]][winner[0][1]], coords[0], coords[1], "red")
+        }
         return;
     }
     if (step_counter === getMaxStepCount()){
         console.log("Game End!")
         alert("Победила Дружба!")
     }
-
-
 }
 
 function renderSymbolInCell (symbol, row, col, color = '#333') {
