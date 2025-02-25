@@ -34,6 +34,7 @@ function cellClickHandler (row, col) {
     /* Пользоваться методом для размещения символа в клетке так:
         renderSymbolInCell(ZERO, row, col);
      */
+    renderSymbolInCell(ZERO, row, col);
 }
 
 function renderSymbolInCell (symbol, row, col, color = '#333') {
@@ -55,6 +56,7 @@ function addResetListener () {
 
 function resetClickHandler () {
     console.log('reset!');
+    startGame();
 }
 
 
