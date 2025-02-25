@@ -4,25 +4,39 @@ const EMPTY = ' ';
 
 const container = document.getElementById('fieldWrapper');
 
-
-let matrix_width = 3;
-let matrix_height = 3;
-let step_counter = 0;
-
-
-function getMaxStepCount(){
-    return matrix_height * matrix_height;
-}
-
 let n = 3;
-let matrix = [[EMPTY, EMPTY, EMPTY], [EMPTY, EMPTY, EMPTY], [EMPTY, EMPTY, EMPTY]];
+let matrix = Array.from({ length: n }, () => Array(n).fill(EMPTY));
+
+function checkWin(matrix) {
+    const n = matrix.length;
+    for (let i = 0; i < n; i++) {
+        if (matrix[i][0] !== EMPTY && matrix[i].every(cell => cell === matrix[i][0])) {
+            return matrix[i][0];
+        }
+    }
+
+    for (let j = 0; j < n; j++) {
+        if (matrix[0][j] !== EMPTY && matrix.every(row => row[j] === matrix[0][j])) {
+            return matrix[0][j];
+        }
+    }
+
+    if (matrix[0][0] !== EMPTY && matrix.every((row, index) => row[index] === matrix[0][0])) {
+        return matrix[0][0]; 
+    }
+
+    if (matrix[0][n - 1] !== EMPTY && matrix.every((row, index) => row[n - 1 - index] === matrix[0][n - 1])) {
+        return matrix[0][n - 1];
+    }
+
+    return null;
+}
 
 startGame();
 addResetListener();
 
 function startGame () {
     renderGrid(3);
-    step_counter = 0;
 }
 
 function renderGrid (dimension) {
@@ -43,18 +57,10 @@ function renderGrid (dimension) {
 function cellClickHandler (row, col) {
     console.log(`Clicked on cell: ${row}, ${col}`);
 
-    if (step_counter == getMaxStepCount()){
-        console.log("Game already ended!")
-        return;
-    }
-    
-
-    let current_step = step_counter % 2 === 0 ? ZERO : CROSS;
-    renderSymbolInCell(current_step, row, col);
-    step_counter += 1;
-    if (step_counter === getMaxStepCount()){
-        console.log("Game End!")
-    }
+    /* Пользоваться методом для размещения символа в клетке так:
+        renderSymbolInCell(ZERO, row, col);
+     */
+    renderSymbolInCell(ZERO, row, col);
 }
 
 function renderSymbolInCell (symbol, row, col, color = '#333') {
