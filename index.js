@@ -4,11 +4,23 @@ const EMPTY = ' ';
 
 const container = document.getElementById('fieldWrapper');
 
+
+let matrix_width = 3;
+let matrix_height = 3;
+let step_counter = 0;
+
+
+function getMaxStepCount(){
+    return matrix_height * matrix_height;
+}
+
+
 startGame();
 addResetListener();
 
 function startGame () {
     renderGrid(3);
+    step_counter = 0;
 }
 
 function renderGrid (dimension) {
@@ -27,14 +39,20 @@ function renderGrid (dimension) {
 }
 
 function cellClickHandler (row, col) {
-    // Пиши код тут
     console.log(`Clicked on cell: ${row}, ${col}`);
 
+    if (step_counter == getMaxStepCount()){
+        console.log("Game already ended!")
+        return;
+    }
+    
 
-    /* Пользоваться методом для размещения символа в клетке так:
-        renderSymbolInCell(ZERO, row, col);
-     */
-    renderSymbolInCell(ZERO, row, col);
+    let current_step = step_counter % 2 === 0 ? ZERO : CROSS;
+    renderSymbolInCell(current_step, row, col);
+    step_counter += 1;
+    if (step_counter === getMaxStepCount()){
+        console.log("Game End!")
+    }
 }
 
 function renderSymbolInCell (symbol, row, col, color = '#333') {
