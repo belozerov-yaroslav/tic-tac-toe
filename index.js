@@ -14,6 +14,8 @@ function getMaxStepCount(){
     return matrix_height * matrix_height;
 }
 
+let n = 3;
+let matrix = [[EMPTY, EMPTY, EMPTY], [EMPTY, EMPTY, EMPTY], [EMPTY, EMPTY, EMPTY]];
 
 startGame();
 addResetListener();
