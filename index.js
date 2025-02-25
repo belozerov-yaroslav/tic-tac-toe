@@ -105,9 +105,28 @@ function cellClickHandler (row, col) {
         }
         return;
     }
+    if (step_counter > (n * n) / 2){
+        increaseMatrixSize();
+    }
     if (step_counter === getMaxStepCount()){
         console.log("Game End!")
         alert("Победила Дружба!")
+    }
+}
+
+function increaseMatrixSize(){
+    for (let row of matrix){
+        row.unshift(EMPTY);
+        row.push(EMPTY);
+    }
+    matrix.push(Array(n + 2).fill(EMPTY));
+    matrix.unshift(Array(n + 2).fill(EMPTY));
+    n = n + 2;
+    renderGrid(n);
+    for (let row = 0; row < matrix.length; row++){
+        for (let column = 0; column < matrix.length; column++){
+            renderSymbolInCell(matrix[row][column], row, column);
+        }
     }
 }
 
